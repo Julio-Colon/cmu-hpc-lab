@@ -1,0 +1,10 @@
+# Terraform state and plan files
+*.tfstate
+*.tfstate.backup
+*.tfplan
+
+# Terraform provider plugins and modules
+.terraform/
+
+# Ansible generated inventory
+ansible/inventory.ini
