@@ -78,6 +78,10 @@ jobs:
           echo "${{ secrets.SSH_PRIVATE_KEY }}" > ~/.ssh/id_rsa
           chmod 600 ~/.ssh/id_rsa
 
+      - name: DEBUG - Validate Ansible Inventory
+        run: ansible-inventory -i inventory.ini --list
+        working-directory: ./ansible
+
       - name: Run Ansible Playbook
         env:
           ANSIBLE_HOST_KEY_CHECKING: 'False'
