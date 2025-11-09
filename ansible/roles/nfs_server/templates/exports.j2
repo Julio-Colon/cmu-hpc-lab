@@ -1,0 +1,3 @@
+{% for host in groups['compute'] %}
+/export/home    {{ hostvars[host]['ansible_host'] }}(rw,sync,no_root_squash,no_subtree_check)
+{% endfor %}

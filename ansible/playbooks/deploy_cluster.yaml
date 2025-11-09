@@ -1,0 +1,19 @@
+---
+- name: Configure All Nodes (Users, EPEL, Base Setup)
+  hosts: all
+  become: yes
+  roles:
+    - common
+
+- name: Configure Controller Node (NFS Server, Slurm Controller)
+  hosts: controller
+  become: yes
+  roles:
+    - nfs_server
+    - { role: slurm, slurm_role: controller }
+
+- name: Configure Compute Nodes (NFS Client, Slurm Daemon)
+  hosts: compute
+  become: yes
+  roles:
+    - { role: slurm, slurm_role: compute }

@@ -1,0 +1,50 @@
+---
+- name: Install Slurm packages
+  yum:
+    name:
+      - slurm
+      - slurm-slurmd
+      - slurm-slurmctld
+    state: present
+
+- name: Mount NFS share on compute nodes
+  block:
+    - name: Ensure /home mount point exists
+      file:
+        path: /home
+        state: directory
+
+    - name: Configure /etc/fstab for NFS client
+      mount:
+        name: /home
+        src: controller:/export/home
+        fstype: nfs
+        opts: defaults
+        state: mounted
+  when: slurm_role == 'compute'
+  tags: nfs_client
+
+- name: Deploy Slurm configuration file
+  template:
+    src: slurm.conf.j2
+    dest: /etc/slurm/slurm.conf
+    owner: root
+    group: root
+    mode: '0644'
+  notify:
+    - Restart Slurm Controller
+    - Restart Slurm Daemon
+
+- name: Start Slurm Controller daemon
+  systemd:
+    name: slurmctld
+    state: started
+    enabled: yes
+  when: slurm_role == 'controller'
+
+- name: Start Slurm Compute daemon
+  systemd:
+    name: slurmd
+    state: started
+    enabled: yes
+  when: slurm_role == 'compute'

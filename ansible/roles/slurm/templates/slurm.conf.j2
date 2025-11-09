@@ -1,0 +1,21 @@
+ClusterName=hpc-lab
+SlurmctldHost={{ groups['controller'][0] }}
+SlurmUser=slurm
+SlurmctldPort=6817
+SlurmdPort=6818
+AuthType=auth/munge
+StateSaveLocation=/var/spool/slurmctld
+SlurmdSpoolDir=/var/spool/slurmd
+SwitchType=switch/none
+MpiDefault=none
+ProctrackType=proctrack/pgid
+ReturnToService=1
+
+SlurmctldLogFile=/var/log/slurm/slurmctld.log
+SlurmdLogFile=/var/log/slurm/slurmd.log
+
+{% for host in groups['compute'] %}
+NodeName={{ hostvars[host]['inventory_hostname'] }} NodeAddr={{ hostvars[host]['ansible_host'] }} CPUs=1 RealMemory=900 State=UNKNOWN
+{% endfor %}
+
+PartitionName=dev Nodes={{ groups['compute'] | map('lower') | join(',') }} Default=YES MaxTime=INFINITE State=UP

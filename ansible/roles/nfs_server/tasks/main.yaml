@@ -1,0 +1,30 @@
+---
+- name: Ensure shared directory exists
+  file:
+    path: /export/home
+    state: directory
+    owner: hpcuser
+    group: hpcuser
+    mode: '0755'
+
+- name: Configure NFS exports
+  template:
+    src: exports.j2
+    dest: /etc/exports
+    owner: root
+    group: root
+    mode: '0644'
+  notify: Restart NFS Server
+
+- name: Start and enable NFS services
+  systemd:
+    name: nfs-server
+    state: started
+    enabled: yes
+
+- name: Restart NFS Server
+  handlers:
+    - name: Restart NFS Server
+      service:
+        name: nfs-server
+        state: restarted
