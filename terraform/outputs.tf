@@ -14,8 +14,6 @@ ${instance.tags.Name} ansible_host=${instance.public_ip} private_ip=${instance.p
 [cluster:children]
 controller
 compute
-
-[all:vars]
   EOT
 
   filename = "${path.module}/../ansible/inventory.ini"
