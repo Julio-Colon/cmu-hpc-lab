@@ -9,3 +9,6 @@ ${instance.tags.Name} ansible_host=${instance.public_ip} private_ip=${instance.p
 [cluster:children]
 controller
 compute
+
+[all:vars]
+ansible_user=ubuntu
