@@ -81,5 +81,5 @@ jobs:
       - name: Run Ansible Playbook
         env:
           ANSIBLE_HOST_KEY_CHECKING: 'False'
-        run: ansible-playbook playbooks/deploy_cluster.yaml -i inventory.ini
+        run: ansible-playbook playbooks/deploy_cluster.yaml
         working-directory: ./ansible
