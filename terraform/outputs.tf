@@ -7,14 +7,14 @@ resource "local_file" "ansible_inventory" {
 ${aws_instance.controller.tags.Name} ansible_host=${aws_instance.controller.public_ip} private_ip=${aws_instance.controller.private_ip}
 
 [compute]
-%{ for i, instance in aws_instance.compute ~}
+%{ for i, instance in aws_instance.compute }
 ${instance.tags.Name} ansible_host=${instance.public_ip} private_ip=${instance.private_ip}
 %{ endfor ~}
 
 [cluster:children]
 controller
 compute
-  EOT
+EOT
 
   filename = "${path.module}/../ansible/inventory.ini"
 }
