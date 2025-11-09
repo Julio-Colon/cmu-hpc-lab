@@ -1,6 +1,6 @@
 ---
 - name: Install Slurm packages
-  yum:
+  apt:
     name:
       - slurm
       - slurm-slurmd

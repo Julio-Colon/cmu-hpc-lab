@@ -1,0 +1,46 @@
+---
+- name: Update all packages and install EPEL
+  apt:
+    name:
+      - '*'
+      - epel-release
+      - nfs-utils
+      - python3-pip
+    state: latest
+  tags: packages
+
+- name: Install Munge
+  apt:
+    name: munge
+    state: present
+
+- name: Configure /etc/hosts file for name resolution
+  template:
+    src: hosts.j2
+    dest: /etc/hosts
+    mode: '0644'
+  tags: hosts
+
+- name: Create 'hpcuser' with a fixed UID (Crucial for shared home dir)
+  user:
+    name: hpcuser
+    uid: 1001
+    state: present
+    create_home: yes
+  tags: users
+
+- name: Create 'slurm' service user
+  user:
+    name: slurm
+    state: present
+    system: yes
+    shell: /sbin/nologin
+  tags: users
+
+- name: Ensure Slurm log directory exists
+  file:
+    path: /var/log/slurm
+    state: directory
+    owner: slurm
+    group: slurm
+    mode: '0755'
