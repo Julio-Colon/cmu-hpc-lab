@@ -21,10 +21,3 @@
     name: nfs-server
     state: started
     enabled: yes
-
-- name: Restart NFS Server
-  handlers:
-    - name: Restart NFS Server
-      service:
-        name: nfs-server
-        state: restarted
