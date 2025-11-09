@@ -14,8 +14,9 @@ ReturnToService=1
 SlurmctldLogFile=/var/log/slurm/slurmctld.log
 SlurmdLogFile=/var/log/slurm/slurmd.log
 
-{% for host in groups['compute'] %}
-NodeName={{ hostvars[host]['inventory_hostname'] }} NodeAddr={{ hostvars[host]['ansible_host'] }} CPUs=1 RealMemory=900 State=UNKNOWN
+# NODES (Generate a list for ALL nodes in the cluster)
+{% for host in groups['cluster'] %}
+NodeName={{ hostvars[host]['inventory_hostname'] }} NodeAddr={{ hostvars[host]['inventory_hostname'] }} CPUs=1 RealMemory=900 State=UNKNOWN
 {% endfor %}
 
-PartitionName=dev Nodes={{ groups['compute'] | map('lower') | join(',') }} Default=YES MaxTime=INFINITE State=UP
+PartitionName=dev Nodes={{ groups['cluster'] | map('lower') | join(',') }} Default=YES MaxTime=INFINITE State=UP
