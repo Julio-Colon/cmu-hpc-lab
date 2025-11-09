@@ -9,6 +9,7 @@
   hosts: controller
   become: yes
   roles:
+    - common 
     - nfs_server
     - { role: slurm, slurm_role: controller }
 
@@ -16,4 +17,5 @@
   hosts: compute
   become: yes
   roles:
+    - common 
     - { role: slurm, slurm_role: compute }
