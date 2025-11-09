@@ -74,6 +74,24 @@
     - Restart Slurm Controller
     - Restart Slurm Daemon
 
+- name: Ensure Slurm state directory exists on controller
+  file:
+    path: /var/spool/slurmctld
+    state: directory
+    owner: slurm
+    group: slurm
+    mode: '0755'
+  when: slurm_role == 'controller'
+
+- name: Ensure Slurm daemon spool directory exists on compute nodes
+  file:
+    path: /var/spool/slurmd
+    state: directory
+    owner: slurm
+    group: slurm
+    mode: '0755'
+  when: slurm_role == 'compute'
+
 - name: Start Slurm Controller daemon
   systemd:
     name: slurmctld
