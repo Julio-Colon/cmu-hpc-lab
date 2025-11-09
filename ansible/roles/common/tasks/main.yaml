@@ -1,18 +1,17 @@
----
-- name: Update all packages and install EPEL
+- name: Update apt cache
   apt:
-    name:
-      - '*'
-      - epel-release
-      - nfs-utils
-      - python3-pip
-    state: latest
+    update_cache: yes
+    cache_valid_time: 3600
   tags: packages
 
-- name: Install Munge
+- name: Install packages
   apt:
-    name: munge
+    name:
+      - nfs-common
+      - python3-pip
+      - munge
     state: present
+  tags: packages
 
 - name: Configure /etc/hosts file for name resolution
   template:

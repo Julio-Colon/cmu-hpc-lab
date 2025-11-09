@@ -1,4 +1,3 @@
----
 - name: Ensure shared directory exists
   file:
     path: /export/home
