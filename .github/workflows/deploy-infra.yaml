@@ -66,6 +66,7 @@ jobs:
         uses: actions/download-artifact@v4
         with:
           name: ansible-inventory
+          path: ./ansible
 
       - name: Set up Python and Ansible
         run: |
