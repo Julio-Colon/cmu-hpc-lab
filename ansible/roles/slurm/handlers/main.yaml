@@ -1,0 +1,11 @@
+- name: Restart Slurm Controller
+  systemd:
+    name: slurmctld
+    state: restarted
+  when: slurm_role == 'controller'
+
+- name: Restart Slurm Daemon
+  systemd:
+    name: slurmd
+    state: restarted
+  when: slurm_role == 'compute'
