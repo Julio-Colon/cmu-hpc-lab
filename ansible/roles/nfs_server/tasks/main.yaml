@@ -1,3 +1,8 @@
+- name: Install NFS server package
+  apt:
+    name: nfs-kernel-server
+    state: present
+
 - name: Ensure shared directory exists
   file:
     path: /export/home
@@ -17,6 +22,6 @@
 
 - name: Start and enable NFS services
   systemd:
-    name: nfs-server
+    name: nfs-kernel-server
     state: started
     enabled: yes
